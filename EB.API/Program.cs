@@ -1,5 +1,6 @@
 using EB.API.Mapper;
 using EB.Domain;
+using EB.Domain.ExceptionHandling;
 using EB.Domain.Interface;
 using EB.Domain.Mapping.Mapper;
 using EB.Infrastructure;
@@ -56,6 +57,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

@@ -1,4 +1,6 @@
-﻿namespace EB.Domain.Exceptions;
+﻿using System.Net;
+
+namespace EB.Domain.Exceptions;
 
 public class ResourceNotFoundException : Exception
 {

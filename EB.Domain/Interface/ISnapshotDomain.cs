@@ -5,6 +5,6 @@ namespace EB.Domain.Interface;
 
 public interface ISnapshotDomain
 {
-    public Snapshot Create(SnapshotInput snapshot, int ProductId);
+    public Snapshot Create(SnapshotInput snapshot, int productId);
     public List<Snapshot> GetSnapshotsByProductId(int id);
 }

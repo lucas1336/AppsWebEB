@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Net;
+using AutoMapper;
 using EB.API.Input;
 using EB.Domain.Exceptions;
 using EB.Domain.Interface;
@@ -20,10 +21,11 @@ public class SnapshotDomain : ISnapshotDomain
         _productInfrastructure = productInfrastructure;
     }
 
-    public Snapshot Create(SnapshotInput snapshot, int ProductId)
+    public Snapshot Create(SnapshotInput snapshot, int productId)
     {
         Snapshot snapshotModel = _mapper.Map<SnapshotInput, Snapshot>(snapshot);
-        snapshotModel.Product = _productInfrastructure.GetById(ProductId);
+        snapshotModel.Product = _productInfrastructure.GetById(productId);
+        ExistsProductById(productId);
         ValidateAdvancedProduct(snapshotModel, snapshotModel.Product.MonitoringLevel == 1);
         ValidateSnapshot(snapshotModel);
         return _snapshotInfrastructure.Create(snapshotModel);
@@ -61,8 +63,8 @@ public class SnapshotDomain : ISnapshotDomain
     private void ValidateAdvancedProduct(Snapshot snapshot, bool isAdvanced)
     {
         if (snapshot.Energy != 0 && !isAdvanced)
-            throw new ValidationException("Energy must be 0");
+            throw new ValidationException("Energy must be 0 if the product is not Advanced");
         if (snapshot.Leakage!= 0 && !isAdvanced)
-            throw new ValidationException("Leakage must be 0");
+            throw new ValidationException("Leakage must be 0 if the product is not Advanced");
     }
 }
